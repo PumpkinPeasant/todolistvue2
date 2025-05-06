@@ -15,5 +15,8 @@ export default {
   css: [],
   plugins: [],
   modules: [],
-  build: {}
+  build: {},
+  buildModules: [
+    '@nuxtjs/vuetify'
+  ],
 }
