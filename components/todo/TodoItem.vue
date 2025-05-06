@@ -32,26 +32,48 @@ export default defineComponent({
 
     }
   },
+  computed: {
+    formattedDate() {
+      return this.item.createdAt.toLocaleString('en-EN', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+    }
+  }
 
 })
 </script>
 
 <template>
   <div class="d-flex align-center mb-3" style="gap: 8px">
+    <v-btn @click="toggleEdit()" icon>
+      <v-icon>mdi-drag</v-icon>
+    </v-btn>
     <v-chip rounded variant="text">{{ index + 1 }}</v-chip>
     <v-card
         min-width="400px"
         class="d-flex justify-space-between align-center pa-2">
-      <v-card-title v-if="!isEditActive">
-        {{ item.title }}
-      </v-card-title>
-      <v-text-field
-          v-model="newTitle"
-          v-else
-          append-icon="mdi-content-save"
-          class="mx-4 mt-6"
-          variant="outlined"
-          @click.stop/>
+      <div>
+        <v-card-title v-if="!isEditActive">
+          {{ item.title }}
+        </v-card-title>
+        <v-text-field
+            v-model="newTitle"
+            v-else
+            append-icon="mdi-content-save"
+            class="mx-4 mt-6"
+            variant="outlined"
+            @click.stop/>
+        <v-card-subtitle>
+          Date: {{formattedDate}}
+        </v-card-subtitle>
+      </div>
+      <v-chip :color="item.checked ? 'success' : ''">
+        {{item.checked ? 'Done' : 'In progress'}}
+      </v-chip>
       <v-checkbox
           v-if="!isEditActive"
           @click.stop="checkItem(item.id, !item.checked)"
